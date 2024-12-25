@@ -125,6 +125,9 @@ local function project_list(config, callback)
     data = string.gsub(data, '%z', '')
     local dump = assert(loadstring(data))
     local list = dump()
+    if utils.is_project_manager then
+      list = require('neovim-project.utils.history').get_recent_projects()
+    end
     if list then
       list = vim.list_slice(list, #list - config.project.limit)
     end

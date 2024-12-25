@@ -3,6 +3,18 @@ local utils = {}
 
 utils.is_win = uv.os_uname().version:match('Windows')
 
+local function check_if_project_manager_installed()
+  local runtime_paths = vim.api.nvim_list_runtime_paths()
+  for _, path in ipairs(runtime_paths) do
+    if path:match('neovim%-project') then
+      return true
+    end
+  end
+  return false
+end
+
+utils.is_project_manager = check_if_project_manager_installed()
+
 function utils.path_join(...)
   local path_sep = utils.is_win and '\\' or '/'
   return table.concat({ ... }, path_sep)
